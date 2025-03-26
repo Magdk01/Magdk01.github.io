@@ -12,7 +12,7 @@ author: s214588
 ## Overall Trend (2003-2024)
 
 
-<iframe src="/assets/plotly/yearly_drug_offenses.html" height="500px"></iframe>
+<iframe src="/assets/plotly/yearly_drug_offenses.html" height="550px"></iframe>
 
 
 

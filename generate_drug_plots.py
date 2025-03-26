@@ -36,7 +36,11 @@ def generate_yearly_bar():
         margin=dict(l=40, r=40, t=40, b=40),
         height=500,
         autosize=True,
+        modebar=dict(bgcolor="rgba(0,0,0,0)", orientation="v"),
     )
+
+    # Remove colorbar title
+    fig.update_coloraxes(showscale=True, colorbar_title="")
 
     fig.write_html(
         "assets/plotly/yearly_drug_offenses.html",
@@ -45,6 +49,7 @@ def generate_yearly_bar():
             "displayModeBar": True,
             "scrollZoom": True,
             "displaylogo": False,
+            "modeBarButtonsToRemove": ["select2d", "lasso2d"],
         },
         full_html=True,
         include_plotlyjs=True,
@@ -97,8 +102,17 @@ def generate_district_lines():
     )
     p.add_tools(hover)
 
-    legend = Legend(items=legend_items, location="top_right", click_policy="hide")
-    p.add_layout(legend)
+    # Move legend outside of plot
+    legend = Legend(
+        items=legend_items,
+        location="center",
+        click_policy="hide",
+        orientation="vertical",
+    )
+    p.add_layout(legend, "right")
+
+    # Adjust plot margins to accommodate legend
+    p.min_border_right = 150
 
     html = file_html(p, CDN, "Drug Offenses by District")
     with open("assets/bokeh/district_trends.html", "w") as f:
@@ -110,7 +124,7 @@ def generate_district_lines():
 #  Plot 3
 def generate_choropleth():
     df_agg = (
-        drug_offenses.groupby(["Year", "District"]).size().reset_index(name="count")
+        drug_offenses.groupby(["Year", "District"]).size().reset_index(name="Count")
     )
     df_agg["District"] = df_agg["District"].str.upper()
 
@@ -121,24 +135,30 @@ def generate_choropleth():
         df_agg,
         geojson=geo_data,
         locations="District",
-        color="count",
+        color="Count",  # Changed from "count" to "Count"
         featureidkey="properties.DISTRICT",
         color_continuous_scale="YlOrRd",
-        range_color=(0, df_agg["count"].max()),
+        range_color=(0, df_agg["Count"].max()),
         center={"lat": 37.76, "lon": -122.45},
         animation_frame="Year",
         hover_name="District",
-        hover_data=["count"],
+        hover_data=["Count"],
         opacity=0.8,
         zoom=10,
         mapbox_style="carto-positron",
     )
 
     fig.update_layout(
-        margin=dict(l=0, r=0, t=0, b=0),
+        title="Drug Offenses by District Over Time",
+        title_x=0.5,
+        margin=dict(l=0, r=0, t=30, b=0),  # Added top margin for title
         height=600,
         autosize=True,
+        modebar=dict(bgcolor="rgba(0,0,0,0)", orientation="v"),
     )
+
+    # Update colorbar title
+    fig.update_coloraxes(colorbar_title="Count")
 
     # Configure animation settings to disable autoplay
     fig.layout.updatemenus[0].buttons[0].args[1]["frame"]["duration"] = 1000
@@ -157,10 +177,11 @@ def generate_choropleth():
             "displayModeBar": True,
             "scrollZoom": True,
             "displaylogo": False,
+            "modeBarButtonsToRemove": ["select2d", "lasso2d"],
         },
         full_html=True,
         include_plotlyjs=True,
-        auto_play=False,  # Disable auto play
+        auto_play=False,
     )
     print("Generated district choropleth map")
 
