@@ -13,13 +13,13 @@ df = pd.DataFrame(
     }
 )
 
-# Create the visualization
+# Create and save Plotly visualization
 fig = px.scatter(
     df,
     x="x",
     y="y",
     color="category",
-    title="Interactive Scatter Plot",
+    title="Interactive Scatter Plot (Plotly)",
     labels={"x": "X Axis", "y": "Y Axis", "category": "Category"},
 )
 
@@ -29,11 +29,11 @@ fig.update_layout(
     title_x=0.5,
     showlegend=True,
     margin=dict(l=40, r=40, t=40, b=40),
-    height=500,  # Set a reasonable default height
+    height=500,
     autosize=True,
 )
 
-# Save as HTML
+# Save the plot
 fig.write_html(
     "assets/plotly/example.html",
     config={
@@ -45,4 +45,5 @@ fig.write_html(
     full_html=True,
     include_plotlyjs=True,
 )
+
 print("Plotly visualization has been generated and saved to assets/plotly/example.html")
