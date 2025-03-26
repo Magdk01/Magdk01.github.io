@@ -45,13 +45,17 @@ layout: default
         margin-bottom: 2rem;
     }
 
-    /* Make iframes fill their width */
+    /* Make iframes fill their width but respect custom heights */
     iframe {
         display: block;
         margin: 2rem auto;
         border: none;
         width: 100%;
-        min-height: 600px;
+    }
+
+    /* Default height if none specified */
+    iframe:not([height]) {
+        height: 500px;
     }
 
     @media screen and (max-width: 768px) {
