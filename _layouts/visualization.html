@@ -1,0 +1,62 @@
+---
+layout: default
+---
+
+<article class="visualization">
+    <header class="visualization-header">
+        <h1 class="visualization-title">{{ page.title | escape }}</h1>
+        {% if page.description %}
+        <p class="visualization-description">{{ page.description }}</p>
+        {% endif %}
+        <div class="visualization-meta">
+            <time datetime="{{ page.date | date_to_xmlschema }}">
+                {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+                {{ page.date | date: date_format }}
+            </time>
+            {%- if page.author -%}
+            • <span>{{ page.author }}</span>
+            {%- endif -%}
+        </div>
+    </header>
+
+    <div class="visualization-content">
+        {{ content }}
+    </div>
+
+    {% if site.disqus.shortname %}
+    {% include disqus_comments.html %}
+    {% endif %}
+</article>
+
+<style>
+    /* Force wrapper to be narrower */
+    .wrapper {
+        max-width: 1200px !important;
+    }
+
+    .visualization {
+        width: 70%;
+        margin: 0 auto;
+        text-align: left;
+    }
+
+    .visualization-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    /* Make iframes fill their width */
+    iframe {
+        display: block;
+        margin: 2rem auto;
+        border: none;
+        width: 100%;
+        min-height: 600px;
+    }
+
+    @media screen and (max-width: 768px) {
+        .visualization {
+            width: 90%;
+        }
+    }
+</style>

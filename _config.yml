@@ -18,21 +18,23 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Your awesome title
-email: your-email@example.com
+title: SDAV Website
+email: s214588@student.dtu.dk
 description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  Data Visualization Website for use in the DTU course SDAV.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username:  jekyll
+github_username: Magdk01
 
 # Build settings
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-paginate
+  - jekyll-include-cache
+  - jemoji
 
 # Exclude from processing.
 # The following items will not be processed, by default.
@@ -53,3 +55,26 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
+# Additional settings for data visualization
+kramdown:
+  math_engine: mathjax
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true
+
+# Collections
+collections:
+  visualizations:
+    output: true
+    permalink: /visualizations/:slug/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: visualizations
+    values:
+      layout: visualization
+      comments: true
