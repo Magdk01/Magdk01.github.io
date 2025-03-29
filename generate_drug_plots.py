@@ -1,7 +1,7 @@
 import pandas as pd
 import plotly.express as px
 from bokeh.plotting import figure
-from bokeh.models import HoverTool, Legend, ColumnDataSource
+from bokeh.models import HoverTool, Legend, ColumnDataSource, Title
 from bokeh.palettes import Category10
 from bokeh.resources import CDN
 from bokeh.embed import file_html
@@ -33,10 +33,21 @@ def generate_yearly_bar():
         template="plotly_white",
         title_x=0.5,
         showlegend=False,
-        margin=dict(l=40, r=40, t=40, b=40),
+        margin=dict(l=40, r=40, t=80, b=40),  # Increased top margin for subtitle
         height=500,
         autosize=True,
         modebar=dict(bgcolor="rgba(0,0,0,0)", orientation="v"),
+        annotations=[
+            dict(
+                text="Figure 1: Annual drug-related arrests in San Francisco from 2003 to 2024, showing the peak in 2009 and subsequent decline.",
+                xref="paper",
+                yref="paper",
+                x=0.5,
+                y=-0.15,
+                showarrow=False,
+                font=dict(size=12),
+            )
+        ],
     )
 
     # Remove colorbar title
@@ -76,6 +87,17 @@ def generate_district_lines():
         tools="pan,box_zoom,reset,save",
     )
 
+    # Add subtitle
+    p.add_layout(
+        Title(
+            text="Figure 2: Interactive line chart showing drug-related arrests by district over time, allowing comparison of trends across different areas.",
+            text_font_size="12px",
+            text_font_style="italic",
+            align="center",
+        ),
+        "below",
+    )
+
     colors = Category10[10]
     legend_items = []
 
@@ -111,8 +133,9 @@ def generate_district_lines():
     )
     p.add_layout(legend, "right")
 
-    # Adjust plot margins to accommodate legend
+    # Adjust plot margins to accommodate legend and subtitle
     p.min_border_right = 150
+    p.min_border_bottom = 100  # Added space for subtitle
 
     html = file_html(p, CDN, "Drug Offenses by District")
     with open("assets/bokeh/district_trends.html", "w") as f:
@@ -135,7 +158,7 @@ def generate_choropleth():
         df_agg,
         geojson=geo_data,
         locations="District",
-        color="Count",  # Changed from "count" to "Count"
+        color="Count",
         featureidkey="properties.DISTRICT",
         color_continuous_scale="YlOrRd",
         range_color=(0, df_agg["Count"].max()),
@@ -151,10 +174,21 @@ def generate_choropleth():
     fig.update_layout(
         title="Drug Offenses by District Over Time",
         title_x=0.5,
-        margin=dict(l=0, r=0, t=30, b=0),  # Added top margin for title
+        margin=dict(l=0, r=0, t=80, b=40),  # Increased top margin for subtitle
         height=600,
         autosize=True,
         modebar=dict(bgcolor="rgba(0,0,0,0)", orientation="v"),
+        annotations=[
+            dict(
+                text="Figure 3: Animated choropleth map showing the spatial distribution of drug-related arrests across San Francisco districts from 2003 to 2024.",
+                xref="paper",
+                yref="paper",
+                x=0.5,
+                y=-0.15,
+                showarrow=False,
+                font=dict(size=12),
+            )
+        ],
     )
 
     # Update colorbar title
