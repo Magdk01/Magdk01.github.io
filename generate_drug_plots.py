@@ -33,7 +33,7 @@ def generate_yearly_bar():
         template="plotly_white",
         title_x=0.5,
         showlegend=False,
-        margin=dict(l=40, r=40, t=80, b=40),  # Increased top margin for subtitle
+        margin=dict(l=40, r=40, t=40, b=60),  # Increased top margin for subtitle
         height=500,
         autosize=True,
         modebar=dict(bgcolor="rgba(0,0,0,0)", orientation="v"),
@@ -87,16 +87,22 @@ def generate_district_lines():
         tools="pan,box_zoom,reset,save",
     )
 
-    # Add subtitle
+    p.title.align = "center"
+    p.title.text_font_size = "14pt"
+    p.title.text_font_style = "normal"
+
     p.add_layout(
         Title(
-            text="Figure 2: Interactive line chart showing drug-related arrests by district over time, allowing comparison of trends across different areas.",
+            text="Figure 2: Interactive line chart showing drug-related arrests by district over time,\nallowing comparison of trends across different areas.",
             text_font_size="12px",
-            text_font_style="italic",
             align="center",
+            text_font_style="normal",
         ),
         "below",
     )
+
+    p.xaxis.axis_label_text_font_style = "normal"
+    p.yaxis.axis_label_text_font_style = "normal"
 
     colors = Category10[10]
     legend_items = []
@@ -174,13 +180,13 @@ def generate_choropleth():
     fig.update_layout(
         title="Drug Offenses by District Over Time",
         title_x=0.5,
-        margin=dict(l=0, r=0, t=80, b=40),  # Increased top margin for subtitle
+        margin=dict(l=0, r=0, t=40, b=0),
         height=600,
         autosize=True,
         modebar=dict(bgcolor="rgba(0,0,0,0)", orientation="v"),
         annotations=[
             dict(
-                text="Figure 3: Animated choropleth map showing the spatial distribution of drug-related arrests across San Francisco districts from 2003 to 2024.",
+                text="Figure 3: Animated choropleth map showing the spatial distribution of drug-related arrests<br> across San Francisco districts from 2003 to 2024.",
                 xref="paper",
                 yref="paper",
                 x=0.5,
