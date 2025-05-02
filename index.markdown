@@ -27,6 +27,16 @@ description: "Welcome to my data visualization portfolio."
   </div>
 {% endfor %}
 
+<!-- SDAV Exam Project Visualization Card -->
+<div class="visualization-preview">
+  <h2><a href="https://magdk01.github.io/SDAV_exam_project/">SDAV Exam Project Visualizations</a></h2>
+  <p class="visualization-description">Interactive historical trade network visualizations and analysis for the SDAV exam project (1870–2014).</p>
+  <div class="visualization-meta">
+    May 11, 2025, s214588
+  </div>
+</div>
+
+
 <style>
 .visualization-preview {
   margin: 2rem 0;
